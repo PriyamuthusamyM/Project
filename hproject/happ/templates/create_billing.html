@@ -1,0 +1,175 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* CENTER WRAPPER */
+.page-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:30px;
+}
+
+/* CARD */
+.card{
+    width:650px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    margin-bottom:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:#1e293b;
+    margin-bottom:20px;
+}
+
+/* PATIENT INFO */
+.patient-box{
+    background:#e0f2fe;
+    padding:15px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+/* MEDICINE LIST */
+.medicine-item{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+.total-box{
+    text-align:right;
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+    color:#16a34a;
+}
+
+/* LABEL */
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+/* INPUTS */
+select{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+select:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* BUTTON */
+.btn-save{
+    width:100%;
+    padding:12px;
+    background:#16a34a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn-save:hover{
+    background:#15803d;
+}
+
+/* HEADER ICON */
+.icon{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+</style>
+
+<div class="page-wrapper">
+
+    <!-- TITLE -->
+    <div class="icon">💰</div>
+    <div class="title">Create Bill</div>
+
+    <!-- PATIENT -->
+    <div class="card">
+        <div class="patient-box">
+            👤 Patient: {{ prescription.patient.name }}
+        </div>
+    </div>
+
+    <!-- MEDICINES -->
+    <div class="card">
+
+        <h4>💊 Medicines</h4>
+
+        {% for m in medicines %}
+            <div class="medicine-item">
+                <span>{{ m.name }}</span>
+                <span>₹{{ m.price }}</span>
+            </div>
+        {% endfor %}
+
+        <div class="total-box">
+            Total: ₹{{ total }}
+        </div>
+
+    </div>
+
+    <!-- BILL FORM -->
+    <div class="card">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Payment Status</label>
+            <select name="payment_status">
+                <option value="PENDING">PENDING</option>
+                <option value="PAID">PAID</option>
+            </select>
+
+            <label>Payment Method</label>
+            <select name="payment_method">
+                <option value="CASH">CASH</option>
+                <option value="CARD">CARD</option>
+                <option value="UPI">UPI</option>
+            </select>
+
+            <button type="submit" class="btn-save">
+                💾 Save Bill
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

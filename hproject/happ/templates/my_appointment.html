@@ -1,0 +1,112 @@
+
+{% block content %}
+
+<style>
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+.container-box{
+    width:90%;
+    margin:auto;
+    padding:30px;
+}
+
+.title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:30px;
+    color:#1e293b;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th, td{
+    padding:15px;
+    text-align:center;
+}
+
+th{
+    background:#1e293b;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:8px;
+    color:white;
+    font-size:14px;
+}
+
+.pending{ background:#f59e0b; }
+.approved{ background:#10b981; }
+.rejected{ background:#ef4444; }
+
+</style>
+
+<div class="container-box">
+
+    <div class="title">📅 My Appointments</div>
+
+    {% if appointments %}
+
+    <table>
+        <tr>
+            <th>Doctor</th>
+            <th>Reason</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+
+        {% for i in appointments %}
+        <tr>
+
+            <!-- FK FIX -->
+            <td>{{ i.doctor.name }}</td>
+
+            <td>{{ i.reason }}</td>
+
+            <td>{{ i.appointment_date }}</td>
+
+            <td>{{ i.appointment_time }}</td>
+
+            <td>
+                {% if i.status == "PENDING" %}
+                    <span class="status pending">Pending</span>
+                {% elif i.status == "VERIFIED" %}
+                    <span class="status approved">Verified</span>
+                {% elif i.status == "SCHEDULED" %}
+                    <span class="status approved">Scheduled</span>
+                {% elif i.status == "COMPLETED" %}
+                    <span class="status approved">Completed</span>
+                {% else %}
+                    <span class="status rejected">Cancelled</span>
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+        <p style="text-align:center;color:gray;">No appointments found</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

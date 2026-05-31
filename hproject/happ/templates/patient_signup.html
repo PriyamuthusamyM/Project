@@ -1,0 +1,439 @@
+{% block content %}
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins', sans-serif;
+}
+
+/* SPLIT */
+.container-box{
+    display:flex;
+    height:100vh;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    width:50%;
+    background: linear-gradient(135deg, #1f3c88, #3b5ed7);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+}
+
+.left-panel h1{
+    font-size:42px;
+}
+
+/* RIGHT PANEL */
+.right-panel{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f4f6fb;
+}
+
+/* FORM BOX */
+.form-box{
+    width:90%;
+    max-width:420px;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-title{
+    text-align:center;
+    font-weight:600;
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+/* MESSAGE */
+.message-box{
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+    color:white;
+    font-size:14px;
+}
+
+.success{
+    background:green;
+}
+
+.error{
+    background:red;
+}
+
+/* INPUT */
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-control{
+    width:100%;
+    border-radius:10px;
+    height:45px;
+    padding:10px;
+    border:1px solid #ddd;
+    box-sizing:border-box;
+}
+
+textarea.form-control{
+    height:70px;
+}
+
+/* 2 COLUMN */
+.row-2{
+    display:flex;
+    gap:10px;
+}
+
+.row-2 .form-group{
+    flex:1;
+}
+
+/* BUTTON */
+.btn-primary{
+    width:100%;
+    border-radius:10px;
+    padding:12px;
+    background:#1f3c88;
+    border:none;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.btn-primary:hover{
+    background:#162d66;
+}
+
+/* JS ERROR */
+.alert{
+    background:red;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:12px;
+    text-align:center;
+}
+
+.d-none{
+    display:none;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .container-box{
+        flex-direction:column;
+    }
+
+    .left-panel{
+        width:100%;
+        height:30%;
+    }
+
+    .right-panel{
+        width:100%;
+        height:70%;
+    }
+}
+</style>
+
+<div class="container-box">
+
+    <!-- LEFT -->
+    <div class="left-panel">
+        <h1>🧑‍🤝‍🧑 HMS</h1>
+        <p>Patient Management Portal</p>
+        <p>Register patients quickly and securely</p>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-panel">
+
+        <div class="form-box">
+
+            <div class="form-title">
+                Patient Signup
+            </div>
+
+            <!-- DJANGO MESSAGES -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-box 
+                        {% if message.tags == 'success' %}
+                            success
+                        {% else %}
+                            error
+                        {% endif %}
+                    ">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST"
+                  action="{% url 'patient_signup' %}"
+                  onsubmit="return validateSignup()">
+
+                {% csrf_token %}
+
+                <div id="errorBox"
+                     class="alert d-none">
+                </div>
+
+                <!-- NAME -->
+                <div class="form-group">
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           placeholder="Full Name"
+                           required>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="form-group">
+                    <input type="text"
+                           name="username"
+                           class="form-control"
+                           placeholder="Username"
+                           required>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="row-2">
+
+                    <div class="form-group">
+                        <input type="password"
+                               name="password"
+                               id="password"
+                               class="form-control"
+                               placeholder="Password"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password"
+                               name="confirm_password"
+                               class="form-control"
+                               placeholder="Confirm Password"
+                               required>
+                    </div>
+
+                </div>
+
+                <!-- DOB + GENDER -->
+                <div class="row-2">
+
+                    <div class="form-group">
+                        <input type="date"
+                               name="dob"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="gender"
+                                class="form-control"
+                                required>
+
+                            <option value="">
+                                Gender
+                            </option>
+
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- PHONE + EMAIL -->
+                <div class="row-2">
+
+                    <div class="form-group">
+                        <input type="text"
+                               name="phone"
+                               class="form-control"
+                               placeholder="Phone"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               placeholder="Email"
+                               required>
+                    </div>
+
+                </div>
+
+                <!-- BLOOD GROUP -->
+                <div class="form-group">
+
+                    <select name="blood_group"
+                            class="form-control"
+                            required>
+
+                        <option value="">
+                            Blood Group
+                        </option>
+
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+
+                    </select>
+
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="form-group">
+
+                    <textarea name="address"
+                              class="form-control"
+                              placeholder="Address"
+                              required></textarea>
+
+                </div>
+
+                <button type="submit"
+                        class="btn-primary">
+
+                    Register Patient
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function validateSignup(){
+
+let name =
+document.querySelector('[name="name"]')
+.value.trim();
+
+let username =
+document.querySelector('[name="username"]')
+.value.trim();
+
+let password =
+document.querySelector('[name="password"]')
+.value.trim();
+
+let confirmPassword =
+document.querySelector('[name="confirm_password"]')
+.value.trim();
+
+let dob =
+document.querySelector('[name="dob"]')
+.value;
+
+let gender =
+document.querySelector('[name="gender"]')
+.value;
+
+let phone =
+document.querySelector('[name="phone"]')
+.value.trim();
+
+let email =
+document.querySelector('[name="email"]')
+.value.trim();
+
+let address =
+document.querySelector('[name="address"]')
+.value.trim();
+
+let blood =
+document.querySelector('[name="blood_group"]')
+.value;
+
+if(name.length < 3)
+return showError("Enter valid name");
+
+if(username.length < 4)
+return showError(
+"Username must be at least 4 characters"
+);
+
+if(password.length < 6)
+return showError(
+"Password must be at least 6 characters"
+);
+
+if(password !== confirmPassword)
+return showError(
+"Passwords do not match"
+);
+
+if(dob === "")
+return showError("Select DOB");
+
+if(gender === "")
+return showError("Select gender");
+
+if(!/^[0-9]{10}$/.test(phone))
+return showError(
+"Enter valid phone number"
+);
+
+if(!/^\S+@\S+\.\S+$/.test(email))
+return showError(
+"Enter valid email"
+);
+
+if(address.length < 5)
+return showError(
+"Address too short"
+);
+
+if(blood === "")
+return showError(
+"Select blood group"
+);
+
+return true;
+}
+
+function showError(msg){
+
+let box =
+document.getElementById("errorBox");
+
+box.innerHTML = msg;
+
+box.classList.remove("d-none");
+
+return false;
+}
+</script>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

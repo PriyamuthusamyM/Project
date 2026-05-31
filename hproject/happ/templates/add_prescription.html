@@ -1,0 +1,124 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* CENTER WRAPPER */
+.page-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:85vh;
+}
+
+/* CARD */
+.form-card{
+    width:550px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.form-card:hover{
+    transform:translateY(-5px);
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:#1e293b;
+    margin-bottom:20px;
+}
+
+/* LABEL */
+label{
+    font-weight:bold;
+    color:#374151;
+    margin-bottom:5px;
+    display:block;
+}
+
+/* INPUTS */
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+}
+
+input:focus, textarea:focus, select:focus{
+    border-color:#2563eb;
+}
+
+/* BUTTON */
+.btn-save{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn-save:hover{
+    background:#1d4ed8;
+}
+
+/* ICON STYLE HEADER */
+.icon-title{
+    text-align:center;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+</style>
+
+<div class="page-wrapper">
+
+    <div class="form-card">
+
+        <div class="icon-title">🧾</div>
+
+        <div class="title">Add Prescription</div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>👤 Patient</label>
+            {{ form.patient }}
+
+            <label>💊 Medicine Details</label>
+            {{ form.medicine_details }}
+
+            <label>📝 Notes</label>
+            {{ form.notes }}
+
+            <label>📅 Date</label>
+            {{ form.prescription_date }}
+
+            <button type="submit" class="btn-save">
+                💾 Save Prescription
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

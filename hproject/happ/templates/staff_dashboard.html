@@ -1,0 +1,185 @@
+{% extends 'homebase.html' %}
+{% block content %}
+
+<style>
+
+body{
+    margin:0;
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* WRAPPER */
+.wrapper{
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:220px;
+    height:100vh;
+    background:#1e293b;
+    color:white;
+    position:fixed;
+    top:0;
+    left:0;
+    padding-top:30px;
+}
+
+.sidebar h3{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    padding:15px;
+    text-decoration:none;
+    padding-left:25px;
+}
+
+.sidebar a:hover{
+    background:#2563eb;
+}
+
+/* CONTENT */
+.content{
+    margin-left:220px;
+    width:calc(100% - 220px);
+    padding:30px;
+}
+
+/* TITLE */
+.dashboard-title{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+}
+
+/* GRID FIX */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:25px;
+}
+
+/* CARD */
+.card-box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+/* 🔥 FIX H3 ALIGNMENT */
+.card-box h5{
+    color:gray;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+.card-box h3{
+    color:#2563eb;
+    font-size:30px;
+    margin:0;
+    text-align:center;
+    display:block;
+    width:100%;
+}
+
+/* STATUS COLORS */
+.pending{
+    color:#f59e0b;
+}
+
+.completed{
+    color:#10b981;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .content{
+        margin-left:0;
+        width:100%;
+    }
+}
+
+</style>
+
+<div class="sidebar">
+    <h3>STAFF PANEL</h3>
+
+    <a href="{% url 'staff_dashboard' %}">Dashboard</a>
+    <a href="{% url 'doctor_list' %}">Doctors</a>
+    <a href="{% url 'patient_list' %}">Patients</a>
+    <a href="{% url 'staff_appointments' %}">Appointments</a>
+    <a href="{% url 'department_list' %}">Departments</a>
+    <a href="{% url 'billing' %}">Billing</a>
+</div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h2 class="dashboard-title">🏥 Staff Dashboard</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card-box">
+                <h5>Total Doctors</h5>
+                <h3>{{ doctors_count }}</h3>
+            </div>
+
+            <div class="card-box">
+                <h5>Total Patients</h5>
+                <h3>{{ patients_count }}</h3>
+            </div>
+
+            <div class="card-box">
+                <h5>Total Appointments</h5>
+                <h3>{{ appointments_count }}</h3>
+            </div>
+
+            <div class="card-box">
+                <h5>Total Departments</h5>
+                <h3>{{ departments_count }}</h3>
+            </div>
+
+            <div class="card-box">
+                <h5>Pending Appointments</h5>
+                <h3 class="pending">{{ pending_appointments }}</h3>
+            </div>
+
+            <div class="card-box">
+                <h5>Completed Appointments</h5>
+                <h3 class="completed">{{ completed_appointments }}</h3>
+            </div>
+
+            
+            <div class="card-box">
+                <h5>Billing Status</h5>
+                <h3>{{ billing_count }}</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

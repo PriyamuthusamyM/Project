@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Dashboard</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:"Segoe UI", sans-serif;
+            background:#f1f5f9;
+        }
+
+        /* NAVBAR */
+        .navbar{
+            background:#2563eb;
+            color:white;
+            padding:15px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .navbar a{
+            color:white;
+            text-decoration:none;
+            background:#ef4444;
+            padding:6px 14px;
+            border-radius:6px;
+        }
+
+        /* SIDEBAR */
+        .sidebar{
+            width:220px;
+            height:100vh;
+            position:fixed;
+            background:#0f172a;
+            padding-top:20px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:#cbd5e1;
+            padding:14px;
+            text-decoration:none;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover{
+            background:#2563eb;
+            color:white;
+        }
+
+        /* CONTENT */
+        .content{
+            margin-left:230px;
+            padding:25px;
+        }
+
+        /* TITLE */
+        .welcome{
+            font-size:22px;
+            font-weight:bold;
+            margin-bottom:20px;
+        }
+
+        /* CARDS */
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.08);
+            text-align:center;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+            background:#e0f2fe;
+        }
+
+        .card h2{
+            color:#2563eb;
+            margin:0;
+        }
+
+        .card p{
+            margin-top:8px;
+            color:gray;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        /* MOBILE */
+        @media(max-width:900px){
+            .sidebar{
+                width:100%;
+                height:auto;
+                position:relative;
+            }
+
+            .content{
+                margin-left:0;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+{% comment %} <!-- NAVBAR -->
+<div class="navbar">
+    <h2>🏥 Patient Dashboard</h2>
+    <a href="{% url 'logout' %}">Logout</a>
+</div> {% endcomment %}
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <a href="{% url 'patient_dashboard' %}">🏠 Home</a>
+
+    <a href="{% url 'book_appointment' %}">📅 Book Appointments</a>
+
+    <a href="{% url 'my-appointments' %}">🧾 My Appointments</a>
+
+    <a href="{% url 'patient_list' %}">👤 Profile</a>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+    <div class="welcome">
+        Welcome {{ request.user.username }} 👋
+    </div>
+
+    <div class="cards">
+
+        <!-- CARD 1 -->
+        <a href="{% url 'my-appointments' %}">
+            <div class="card">
+                <h2>My Appointments</h2>
+                <p>View status & schedule</p>
+            </div>
+        </a>
+
+        <!-- CARD 2 -->
+        <a href="{% url 'book_appointment' %}">
+            <div class="card">
+                <h2>Book</h2>
+                <p>New appointment</p>
+            </div>
+        </a>
+
+        
+
+        <!-- CARD 3 -->
+        <a href="{% url 'patient_list' %}">
+            <div class="card">
+                <h2>Profile</h2>
+                <p>Manage account</p>
+            </div>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

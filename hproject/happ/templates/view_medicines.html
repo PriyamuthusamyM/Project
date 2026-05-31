@@ -1,0 +1,107 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    margin:25px 0;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+}
+
+/* CARD */
+.table-card{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+/* TABLE */
+.table thead{
+    position:sticky;
+    top:0;
+    z-index:2;
+}
+
+.table th{
+    background:#1e293b !important;
+    color:white;
+    text-align:center;
+}
+
+.table td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table-hover tbody tr:hover{
+    background:#f1f5f9;
+}
+
+/* EMPTY ROW */
+.empty-text{
+    text-align:center;
+    color:gray;
+    padding:20px;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <h2 class="page-title">💊 Medicines</h2>
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead>
+                    <tr>
+                        <th>💊 Name</th>
+                        <th>💉 Dosage</th>
+                        <th>⏰ Timing</th>
+                        <th>📅 Days</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for m in medicines %}
+                    <tr>
+
+                        <td class="fw-semibold">{{ m.medicine_name }}</td>
+                        <td>{{ m.dosage }}</td>
+                        <td>{{ m.timing }}</td>
+                        <td>{{ m.days }}</td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-text">
+                            No medicines found
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

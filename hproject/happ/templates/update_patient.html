@@ -1,0 +1,113 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+}
+
+/* CARD */
+.form-card{
+    max-width:650px;
+    margin:0 auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* LABEL */
+label{
+    font-weight:600;
+    color:#374151;
+    margin-bottom:6px;
+    display:block;
+}
+
+/* INPUTS */
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    margin-bottom:15px;
+    outline:none;
+    transition:0.2s;
+}
+
+input:focus, select:focus, textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 5px rgba(37,99,235,0.3);
+}
+
+/* BUTTON */
+.btn-primary{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+/* BACK BUTTON */
+.back-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 15px;
+    border:1px solid #9ca3af;
+    border-radius:8px;
+    text-decoration:none;
+    color:#374151;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#e5e7eb;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">🧑 Update Patient</div>
+
+    <div class="form-card">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-primary">
+                ✔ Update Patient
+            </button>
+
+        </form>
+
+        <a href="{% url 'patient_list' %}" class="back-btn">
+            ← Back to Patients
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

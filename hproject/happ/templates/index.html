@@ -1,0 +1,97 @@
+
+{% load static %}
+
+{% block content %}
+
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* 🔥 FULL WIDTH HERO FIX */
+.jumbotron {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  background-image: url('{% static "images/bg.jpg" %}');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: white;
+}
+
+.glow {
+  font-size: 48px;
+  font-weight: bold;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #000, 0 0 20px #fff;
+  }
+  to {
+    text-shadow: 0 0 20px #ff4da6, 0 0 40px #ff4da6;
+  }
+}
+
+.sub-text {
+  font-size: 22px;
+  margin-top: 20px;
+  color:red;
+}
+
+.btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  background: #007bff;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn a {
+  color: white;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+
+</style>
+
+<!-- HERO SECTION -->
+<div class="jumbotron">
+
+  <h1 class="glow">You’ll Love the Way We Care for You</h1>
+
+  <h3 class="sub-text">Emergency?</h3>
+
+  <button class="btn">
+    <a href="patientclick">Take Appointment</a>
+  </button>
+
+</div>
+
+<!-- CARDS SECTION -->
+<div style="padding: 50px;">
+  {% include "admin_doctor_patient_card.html" %}
+</div>
+
+{% endblock content %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

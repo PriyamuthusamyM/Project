@@ -1,0 +1,141 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+}
+
+/* GRID */
+.bill-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+}
+
+/* CARD */
+.bill-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    transition:0.3s;
+    border-left:5px solid #2563eb;
+}
+
+.bill-card:hover{
+    transform:translateY(-5px);
+}
+
+/* TITLE */
+.bill-id{
+    font-weight:bold;
+    font-size:18px;
+    margin-bottom:10px;
+    color:#111827;
+}
+
+/* TEXT */
+.text{
+    margin:6px 0;
+    color:#374151;
+}
+
+/* BADGES */
+.badge-paid{
+    background:#10b981;
+    color:white;
+    padding:5px 10px;
+    border-radius:6px;
+    font-size:13px;
+}
+
+.badge-pending{
+    background:#ef4444;
+    color:white;
+    padding:5px 10px;
+    border-radius:6px;
+    font-size:13px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:25px;
+    background:#e0f2fe;
+    border-radius:10px;
+    color:#1e293b;
+    margin:20px;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">💰 All Bills</div>
+
+    {% if bills %}
+
+    <div class="bill-grid">
+
+        {% for b in bills %}
+
+        <div class="bill-card">
+
+            <div class="bill-id">Bill ID: {{ b.bill_id }}</div>
+
+            <div class="text">
+                👤 <strong>Patient:</strong> {{ b.patient.name }}
+            </div>
+
+            <div class="text">
+                💰 <strong>Amount:</strong> ₹{{ b.total_amount }}
+            </div>
+
+            <div class="text">
+                <strong>Status:</strong>
+
+                {% if b.payment_status == "PAID" %}
+                    <span class="badge-paid">PAID</span>
+                {% else %}
+                    <span class="badge-pending">PENDING</span>
+                {% endif %}
+
+            </div>
+
+            <div class="text">
+                💳 <strong>Method:</strong> {{ b.payment_method }}
+            </div>
+
+            <div class="text">
+                📅 <strong>Date:</strong> {{ b.bill_date }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        No bills found 🧾
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

@@ -1,0 +1,127 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* CENTER WRAPPER */
+.page-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:80vh;
+}
+
+/* CARD */
+.card-box{
+    width:480px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    text-align:center;
+    transition:0.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+/* ICON */
+.icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+/* TITLE */
+.title{
+    font-size:24px;
+    font-weight:bold;
+    color:#dc2626;
+    margin-bottom:15px;
+}
+
+/* TEXT */
+.text{
+    font-size:18px;
+    color:#374151;
+    margin-bottom:10px;
+}
+
+/* PATIENT NAME */
+.patient-name{
+    font-size:22px;
+    font-weight:bold;
+    color:#111827;
+    margin-bottom:20px;
+}
+
+/* BUTTONS */
+.btn-danger{
+    padding:10px 18px;
+    background:#dc2626;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:10px;
+    transition:0.3s;
+}
+
+.btn-danger:hover{
+    background:#b91c1c;
+}
+
+.btn-cancel{
+    padding:10px 18px;
+    background:#6b7280;
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.btn-cancel:hover{
+    background:#4b5563;
+}
+
+</style>
+
+<div class="page-wrapper">
+
+    <div class="card-box">
+
+        <div class="icon">⚠</div>
+
+        <div class="title">Delete Confirmation</div>
+
+        <div class="text">
+            Are you sure you want to delete this patient?
+        </div>
+
+        <div class="patient-name">
+            🧑 {{ patient.username }}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="btn-danger">
+                Yes, Delete
+            </button>
+
+            <a href="{% url 'patient_list' %}" class="btn-cancel">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

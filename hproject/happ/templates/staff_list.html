@@ -1,0 +1,137 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+}
+
+/* CARD WRAPPER */
+.table-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+.table thead{
+    background:#1e293b;
+    color:white;
+}
+
+.table tbody tr:hover{
+    background:#f1f5f9;
+    transition:0.2s;
+}
+
+/* BADGE STYLE (DEPARTMENT) */
+.dept{
+    background:#e0f2fe;
+    color:#0369a1;
+    padding:4px 10px;
+    border-radius:6px;
+    font-size:13px;
+}
+
+/* BUTTONS */
+.btn-sm{
+    border-radius:8px;
+    font-size:13px;
+    padding:5px 10px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:20px;
+    color:gray;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">👨‍💼 Staff Members</div>
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle text-center">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for s in staffs %}
+
+                    <tr>
+
+                        <td class="fw-semibold">
+                            {{ s.staff_name }}
+                        </td>
+
+                        <td>{{ s.phone }}</td>
+                        <td>{{ s.email }}</td>
+
+                        <td>
+                            <span class="dept">
+                                {{ s.department.department_name }}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'update_staff' s.staff_id %}"
+                               class="btn btn-sm btn-outline-warning">
+                                ✏ Edit
+                            </a>
+
+                            <a href="{% url 'delete_staff' s.staff_id %}"
+                               class="btn btn-sm btn-outline-danger">
+                                🗑 Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No staff members found
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

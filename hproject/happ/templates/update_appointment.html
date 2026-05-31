@@ -1,0 +1,115 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+}
+
+/* CARD */
+.form-card{
+    max-width:600px;
+    margin:0 auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* PATIENT BOX */
+.patient-box{
+    background:#e0f2fe;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:20px;
+    color:#0f172a;
+    font-weight:600;
+}
+
+/* FORM */
+label{
+    font-weight:600;
+    margin-bottom:6px;
+    display:block;
+    color:#374151;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    margin-bottom:15px;
+    outline:none;
+}
+
+input:focus, select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 5px rgba(37,99,235,0.3);
+}
+
+/* BUTTON */
+.btn-primary{
+    background:#2563eb;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    width:100%;
+    font-size:16px;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">📅 Fix Appointment</div>
+
+    <div class="form-card">
+
+        <!-- Patient Info -->
+        <div class="patient-box">
+            👤 Patient: {{ appointment.patient.name }}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Doctor -->
+            <label>👨‍⚕️ Doctor</label>
+            {{ form.doctor }}
+
+            <!-- Date field -->
+            <div class="mb-3">
+                <label>📅 Date</label>
+                <input type="date" name="appointment_date" class="form-control" id="dateField" required>
+            </div>
+            <!-- Time -->
+            <label>⏰ Time</label>
+            {{ form.appointment_time }}
+
+            <button type="submit" class="btn btn-primary">
+                💾 Schedule Appointment
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

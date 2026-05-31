@@ -1,0 +1,157 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+    text-align:center;
+}
+
+/* CARD */
+.main-card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    padding:20px;
+}
+
+/* TABLE */
+.table thead{
+    background:#1e293b;
+    color:white;
+}
+
+.table tbody tr:hover{
+    background:#f1f5f9;
+    transition:0.2s;
+}
+
+/* BADGES */
+.badge{
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:8px;
+}
+
+/* BUTTONS */
+.btn-sm{
+    border-radius:8px;
+    font-size:13px;
+    padding:6px 10px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:25px;
+    color:gray;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .page-title{
+        font-size:22px;
+    }
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">📅 All Appointments</div>
+
+    <div class="main-card">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle text-center">
+
+                <thead>
+                    <tr>
+                        <th>👤 Patient</th>
+                        <th>Status</th>
+                        <th>📅 Date</th>
+                        <th>⏰ Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for a in appointments %}
+
+                    <tr>
+
+                        <td class="fw-semibold">
+                            {{ a.patient.name }}
+                        </td>
+
+                        <td>
+
+                            {% if a.status == 'PENDING' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+
+                            {% elif a.status == 'COMPLETED' %}
+                                <span class="badge bg-success">Completed</span>
+
+                            {% elif a.status == 'SCHEDULED' %}
+                                <span class="badge bg-info text-dark">Scheduled</span>
+
+                            {% else %}
+                                <span class="badge bg-secondary">{{ a.status }}</span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ a.appointment_date|default:"Not Fixed" }}</td>
+                        <td>{{ a.appointment_time|default:"Not Fixed" }}</td>
+
+                        <td>
+
+                            <a href="{% url 'update_appointment' a.appointment_id %}"
+                               class="btn btn-sm btn-outline-primary">
+                                ✏ Fix
+                            </a>
+
+                            {% if a.status == 'COMPLETED' %}
+                                <a href="{% url 'create_billing' a.appointment_id %}"
+                                   class="btn btn-sm btn-success">
+                                    💰 Bill
+                                </a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No appointments found
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

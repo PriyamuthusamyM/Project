@@ -1,0 +1,128 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* CENTER */
+.page-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:85vh;
+}
+
+/* MAIN CARD */
+.card-box{
+    width:500px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:#1e293b;
+    margin-bottom:20px;
+}
+
+/* INPUT STYLE */
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#22c55e;
+}
+
+/* BUTTONS */
+.btn-add{
+    width:100%;
+    padding:12px;
+    background:#22c55e;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn-add:hover{
+    background:#16a34a;
+}
+
+/* BILL BUTTON */
+.bill-section{
+    margin-top:20px;
+    text-align:center;
+}
+
+.btn-bill{
+    display:inline-block;
+    padding:12px 18px;
+    border:2px solid #2563eb;
+    color:#2563eb;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn-bill:hover{
+    background:#2563eb;
+    color:white;
+}
+
+</style>
+
+<div class="page-wrapper">
+
+    <div class="card-box">
+
+        <div class="title">💊 Add Medicines</div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-add">
+                ➕ Add Medicine
+            </button>
+
+        </form>
+
+        <div class="bill-section">
+
+            <a href="{% url 'create_bill' prescription.prescription_id %}"
+               class="btn-bill">
+                💰 Generate Bill
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

@@ -1,0 +1,348 @@
+{% block content %}
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins', sans-serif;
+}
+
+/* SPLIT */
+.container-box{
+    display:flex;
+    height:100vh;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    width:50%;
+    background: linear-gradient(135deg, #1f3c88, #3b5ed7);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+}
+
+.left-panel h1{
+    font-size:42px;
+}
+
+/* RIGHT PANEL */
+.right-panel{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f4f6fb;
+}
+
+/* FORM BOX */
+.form-box{
+    width:90%;
+    max-width:420px;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-title{
+    text-align:center;
+    font-weight:600;
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+/* INPUT */
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-control{
+    width:100%;
+    border-radius:10px;
+    height:45px;
+    padding:10px;
+    border:1px solid #ddd;
+    box-sizing:border-box;
+}
+
+.form-control:focus{
+    outline:none;
+    border-color:#3b5ed7;
+}
+
+/* 2 COLUMN */
+.row-2{
+    display:flex;
+    gap:10px;
+}
+
+.row-2 .form-group{
+    flex:1;
+}
+
+/* BUTTON */
+.btn-primary{
+    width:100%;
+    border-radius:10px;
+    padding:11px;
+    background:#1f3c88;
+    border:none;
+    font-weight:600;
+    color:white;
+    cursor:pointer;
+}
+
+.btn-primary:hover{
+    background:#162d66;
+}
+
+/* ALERT */
+.alert{
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.alert-danger{
+    background:#ffebee;
+    color:#c62828;
+}
+
+.alert-success{
+    background:#e8f5e9;
+    color:#2e7d32;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .container-box{
+        flex-direction:column;
+    }
+
+    .left-panel{
+        width:100%;
+        height:30%;
+    }
+
+    .right-panel{
+        width:100%;
+        height:70%;
+    }
+}
+</style>
+
+<div class="container-box">
+
+<!-- LEFT -->
+<div class="left-panel">
+    <h1>👨‍⚕️ HMS</h1>
+    <p>Doctor Management Portal</p>
+    <p>Register and manage doctors easily</p>
+</div>
+
+<!-- RIGHT -->
+<div class="right-panel">
+
+<div class="form-box">
+
+<div class="form-title">
+Doctor Signup
+</div>
+
+<!-- Django Messages -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+        {% if message.tags == 'error' %}
+            alert-danger
+        {% else %}
+            alert-success
+        {% endif %}
+        ">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST"
+      action="{% url 'doctor_signup' %}"
+      onsubmit="return validateDoctor()">
+
+{% csrf_token %}
+
+<div id="errorBox"
+     class="alert alert-danger"
+     style="display:none;">
+</div>
+
+<!-- NAME -->
+<div class="form-group">
+<input type="text"
+       name="name"
+       class="form-control"
+       placeholder="Doctor Name"
+       required>
+</div>
+
+<!-- USERNAME -->
+<div class="form-group">
+<input type="text"
+       name="username"
+       class="form-control"
+       placeholder="Username"
+       required>
+</div>
+
+<!-- PASSWORD -->
+<div class="row-2">
+
+<div class="form-group">
+<input type="password"
+       name="password"
+       class="form-control"
+       placeholder="Password"
+       required>
+</div>
+
+<div class="form-group">
+<input type="password"
+       name="confirm_password"
+       class="form-control"
+       placeholder="Confirm Password"
+       required>
+</div>
+
+</div>
+
+<!-- SPECIALIZATION -->
+<div class="form-group">
+<input type="text"
+       name="specialization"
+       class="form-control"
+       placeholder="Specialization"
+       required>
+</div>
+
+<!-- PHONE + EMAIL -->
+<div class="row-2">
+
+<div class="form-group">
+<input type="text"
+       name="phone"
+       class="form-control"
+       placeholder="Phone"
+       required>
+</div>
+
+<div class="form-group">
+<input type="email"
+       name="email"
+       class="form-control"
+       placeholder="Email"
+       required>
+</div>
+
+</div>
+
+<!-- DEPARTMENT -->
+<div class="form-group">
+<select name="department"
+        class="form-control"
+        required>
+
+<option value="">
+Select Department
+</option>
+
+{% for dept in form.department.field.queryset %}
+<option value="{{ dept.pk }}">
+    {{ dept.department_name }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<button type="submit"
+        class="btn-primary">
+    Register Doctor
+</button>
+
+</form>
+
+</div>
+</div>
+</div>
+
+<script>
+function validateDoctor(){
+
+let name =
+document.querySelector('[name="name"]').value.trim();
+
+let username =
+document.querySelector('[name="username"]').value.trim();
+
+let password =
+document.querySelector('[name="password"]').value.trim();
+
+let confirmPassword =
+document.querySelector('[name="confirm_password"]').value.trim();
+
+let phone =
+document.querySelector('[name="phone"]').value.trim();
+
+let email =
+document.querySelector('[name="email"]').value.trim();
+
+let specialization =
+document.querySelector('[name="specialization"]').value.trim();
+
+let department =
+document.querySelector('[name="department"]').value;
+
+if(name.length < 3)
+return showError("Enter valid doctor name");
+
+if(username.length < 4)
+return showError("Username must be at least 4 characters");
+
+if(password.length < 6)
+return showError("Password must be at least 6 characters");
+
+if(password !== confirmPassword)
+return showError("Passwords do not match");
+
+if(!/^[0-9]{10}$/.test(phone))
+return showError("Enter valid phone number");
+
+if(!/^\S+@\S+\.\S+$/.test(email))
+return showError("Enter valid email");
+
+if(specialization.length < 3)
+return showError("Enter specialization");
+
+if(department === "")
+return showError("Select department");
+
+return true;
+}
+
+function showError(msg){
+let box =
+document.getElementById("errorBox");
+
+box.innerHTML = msg;
+box.style.display = "block";
+
+return false;
+}
+</script>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>

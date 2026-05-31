@@ -1,0 +1,140 @@
+{% block content %}
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial;
+}
+
+/* TITLE */
+.page-title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1e293b;
+    margin:25px 0;
+}
+
+/* ADD BUTTON */
+.add-btn{
+    display:inline-block;
+    background:#10b981;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-bottom:15px;
+    transition:0.3s;
+}
+
+.add-btn:hover{
+    background:#059669;
+}
+
+/* CARD */
+.table-card{
+    background:white;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    padding:15px;
+}
+
+/* TABLE */
+.table thead{
+    background:#1e293b;
+    color:white;
+}
+
+.table tbody tr:hover{
+    background:#f1f5f9;
+    transition:0.2s;
+}
+
+/* BUTTONS */
+.btn-sm{
+    border-radius:8px;
+    font-size:13px;
+    padding:5px 10px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:20px;
+    color:gray;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <div class="page-title">🏢 Department List</div>
+
+    <!-- Add Button -->
+    <a href="{% url 'add_department' %}" class="add-btn">
+        ➕ Add New Department
+    </a>
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle text-center mb-0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Department Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for dept in departments %}
+
+                    <tr>
+
+                        <td>{{ dept.department_id }}</td>
+
+                        <td class="fw-semibold">
+                            🏢 {{ dept.department_name }}
+                        </td>
+
+                        <td>
+
+                            <a href="{% url 'update_department' dept.department_id %}"
+                               class="btn btn-sm btn-outline-warning">
+                                ✏ Edit
+                            </a>
+
+                            <a href="{% url 'delete_department' dept.department_id %}"
+                               class="btn btn-sm btn-outline-danger">
+                                🗑 Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="empty">
+                            No departments found
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+<div style="text-align:right;padding:10px;"><a href="{% url 'logout' %}">Logout</a></div>
